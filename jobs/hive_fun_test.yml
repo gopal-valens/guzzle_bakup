@@ -1,0 +1,15 @@
+version: 1
+job:
+  type: "processing"
+source:
+  endpoint: "lo_hive"
+  properties:
+    sql: "select convertVNI2UTF(\"ÔÕEÕOÙ\") as name, parseGender(\"m\") as gender"
+    pre_sql:
+    - "CREATE TEMPORARY FUNCTION parseGender AS 'com.example.sparkfunctions.ParseGender'"
+    - "CREATE TEMPORARY FUNCTION convertVNI2UTF AS 'com.example.sparkfunctions.ConvertVNI2UTF'"
+target:
+  endpoint: "lo_hive"
+  operation: "append"
+  properties:
+    table: "target_table"

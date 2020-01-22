@@ -1,0 +1,42 @@
+version: 1
+job:
+  tags:
+  - "function"
+  type: "ingestion"
+source:
+  endpoint: "lo_hive"
+  properties:
+    query: "select  'f' as gender, convertVNI2UTF(\"ÔÕEÕOÙ\") as name"
+    pre_sql:
+    - "CREATE TEMPORARY FUNCTION parseGender AS 'com.example.sparkfunctions.ParseGender'"
+    - "CREATE TEMPORARY FUNCTION convertVNI2UTF AS 'com.example.sparkfunctions.ConvertVNI2UTF'"
+schema:
+  strict_schema_check: true
+  schema_derivation_strategy: "source"
+  discard: true
+  columns:
+  - nullable:
+      value: true
+      discard: true
+    name: "gender"
+    validate: true
+    partition_column: false
+    data_type:
+      value: "string"
+      discard: true
+    transform_sql:
+      value: "parseGender(gender)"
+    primary_key:
+      value: false
+      discard: true
+target:
+  endpoint: "lo_lfs"
+  properties:
+    format: "delimited"
+    charset: "UTF-8"
+    format_properties:
+      column_delimiter: ","
+      quote_delimiter: "\""
+      merge_file: true
+      contains_header: true
+    path: "target_file_3"

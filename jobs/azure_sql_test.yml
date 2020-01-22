@@ -1,0 +1,62 @@
+version: 1
+job:
+  description: "test azure sql bulk copy functionality "
+  tags:
+  - "azure_test"
+  type: "ingestion"
+source:
+  endpoint: "lo_lfs"
+  properties:
+    format: "delimited"
+    charset: "UTF-8"
+    format_properties:
+      infer_schema: true
+      quote_delimiter: "\""
+      column_delimiter: ","
+      escape_char: "\\\\"
+      contains_header: true
+      clean_column_name: false
+    source_file_pattern: "flights.csv"
+schema:
+  strict_schema_check: true
+  schema_derivation_strategy: "source"
+  discard: true
+  columns:
+  - nullable:
+      value: true
+      discard: true
+    name: "distance"
+    validate_sql:
+      value: "distance <= 1000"
+      discard: true
+    validate: true
+    partition_column: false
+    data_type:
+      value: "string"
+      discard: true
+    primary_key:
+      value: false
+      discard: true
+target:
+  endpoint: "lo_azure"
+  properties:
+    table: "flights3"
+    format_properties:
+      bulkCopyEnable: true
+      bulkCopyBatchSize: 2500
+      bulkCopyTableLock: true
+      bulkCopyTimeout: 600
+    pre_sql:
+    - "truncate table flights3"
+reject:
+  endpoint: "lo_azure"
+  properties:
+    table: "reject_flights"
+    format_properties:
+      bulkCopyEnable: true
+      bulkCopyBatchSize: 2500
+      bulkCopyTableLock: true
+      bulkCopyTimeout: 600
+    pre_sql:
+    - "truncate table reject_flights"
+  failure_threshold: 50

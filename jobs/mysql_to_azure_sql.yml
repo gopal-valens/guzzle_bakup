@@ -1,0 +1,26 @@
+version: 1
+job:
+  description: "test spark jdbc functionality "
+  tags:
+  - "azure_test"
+  - "source_azure"
+  type: "ingestion"
+source:
+  endpoint: "lo_jdbc"
+  properties:
+    table: "flights"
+schema:
+  strict_schema_check: true
+  schema_derivation_strategy: "source"
+  discard: true
+  columns: []
+target:
+  endpoint: "lo_azure"
+  properties:
+    table: "flights3"
+    format_properties:
+      bulkCopyEnable: false
+      bulkCopyBatchSize: 2500
+      bulkCopyTableLock: true
+      bulkCopyTimeout: 600
+  operation: "overwrite"
