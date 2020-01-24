@@ -1,0 +1,11 @@
+version: 1
+job:
+  type: "ingestion"
+source:
+  endpoint: "lo_hive"
+  properties:
+    table: "ac"
+target:
+  endpoint: "lo_jdbc"
+  properties:
+    table: "abc"
