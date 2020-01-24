@@ -1,6 +1,3 @@
-version: 1
-job:
-  type: "ingestion"
 source:
   endpoint: "lo_hdfs"
   properties:
@@ -11,12 +8,20 @@ source:
       quote_delimiter: "\""
       escape_char: "\\\\"
       contains_header: true
-target:
-  endpoint: "lo_hive"
-  properties:
-    auto_create_table: true
-  operation: "append"
+job:
+  type: "ingestion"
+version: 1
 schema:
   strict_schema_check: true
   schema_derivation_strategy: "source"
   discard: true
+target:
+  endpoint: "lo_lfs"
+  properties:
+    format: "delimited"
+    charset: "UTF-8"
+    format_properties:
+      column_delimiter: ","
+      quote_delimiter: "\""
+      merge_file: true
+      contains_header: true
