@@ -1,9 +1,10 @@
-version: 1
 description: ""
+version: 1
+properties:
+  auto_dependency: true
 jobs:
 - csv_demo:
     job_parameters:
       asd: "asd"
+- "csv_demo"
 parallel: 1
-properties:
-  auto_dependency: true
