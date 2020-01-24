@@ -1,3 +1,4 @@
 version: 1
 jobs:
-  - users-processing
+- "users-processing"
+parallel: 3
