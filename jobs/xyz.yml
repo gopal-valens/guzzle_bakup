@@ -1,3 +1,6 @@
+version: 1
+job:
+  type: "ingestion"
 source:
   endpoint: "lo_lfs"
   properties:
@@ -9,9 +12,6 @@ source:
       escape_char: "\\\\"
       contains_header: true
     source_file_pattern: "/asjdkjfl"
-job:
-  type: "ingestion"
-version: 1
 schema:
   strict_schema_check: true
   schema_derivation_strategy: "source"
