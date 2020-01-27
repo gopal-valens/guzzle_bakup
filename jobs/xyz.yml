@@ -1,8 +1,12 @@
-version: 1
-job:
-  type: "ingestion"
 source:
   endpoint: "lo_hive"
+job:
+  type: "ingestion"
+version: 1
+schema:
+  strict_schema_check: true
+  schema_derivation_strategy: "source"
+  discard: true
 target:
   endpoint: "lo_hdfs"
   properties:
@@ -13,7 +17,3 @@ target:
       quote_delimiter: "\""
       merge_file: true
       contains_header: true
-schema:
-  strict_schema_check: true
-  schema_derivation_strategy: "source"
-  discard: true
