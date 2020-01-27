@@ -8,6 +8,7 @@ source:
       quote_delimiter: "\""
       escape_char: "\\\\"
       contains_header: true
+    source_file_pattern: "/asjdkjfl"
 job:
   type: "ingestion"
 version: 1
@@ -25,3 +26,4 @@ target:
       quote_delimiter: "\""
       merge_file: true
       contains_header: true
+    path: "/asdlfkj"
